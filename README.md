@@ -9,9 +9,9 @@ from torchsummaryX import summary
 summary(your_model, torch.zeros((1, 3, 224, 224)))
 ```
 Args:
-- model (Module): Model to summarize
-- x (Tensor): Input tensor of the model with [N, C, H, W] shape dtype and device have to match to the model
-- args, kwargs: Other arguments used in `model.forward` function
+- `model` (Module): Model to summarize
+- `x` (Tensor): Input tensor of the model with [N, C, H, W] shape dtype and device have to match to the model
+- `args, kwargs`: Other arguments used in `model.forward` function
 
 ## Examples
 CNN for MNIST
