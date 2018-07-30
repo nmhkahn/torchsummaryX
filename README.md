@@ -2,6 +2,8 @@
 Improved visualization tool of [torchsummary](https://github.com/sksq96/pytorch-summary). Here, it visualizes kernel size, output shape, # params, and Mult-Adds. Also the torchsummaryX can handle RNN, Recursive NN, or model with multiple inputs.
 
 ## Usage
+`pip install torchsummaryX` and
+
 ```python
 from torchsummaryX import summary
 summary(your_model, torch.zeros((1, 3, 224, 224)))
