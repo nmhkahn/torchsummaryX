@@ -4,9 +4,9 @@ import torch.nn as nn
 from collections import OrderedDict
 
 def summary(model, x, *args, **kwargs):
-    """Summary the given model.
-    Summarized information are output shape, kernel shape and 
-    number of the parameters and operations (Mult-Adds)
+    """Summarize the given input model.
+    Summarized information are 1) output shape, 2) kernel shape, 
+    3) number of the parameters and 4) operations (Mult-Adds)
 
     Args:
         model (Module): Model to summarize
