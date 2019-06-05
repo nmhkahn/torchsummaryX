@@ -95,7 +95,7 @@ def summary(model, x, *args, **kwargs):
     df = df[['Kernel Shape',  'Output Shape', 'Params (K)',   'Mult-Adds (M)']]
     
     print("="*100)
-    print(df)
+    print(df.replace(np.nan, '-')
     print("="*100)
     print(df.sum())
     print("="*100)
