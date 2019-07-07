@@ -102,7 +102,7 @@ def summary(model, x, *args, **kwargs):
 
     max_repr_width = max([len(row) for row in df.to_string().split("\n")])
 
-    with pd.option_context("display.max_rows", 10, "display.max_columns", 5, 'display.float_format', pd.io.formats.format.EngFormatter(use_eng_prefix=True)):
+    with pd.option_context("display.max_rows", 600, "display.max_columns", 10, 'display.float_format', pd.io.formats.format.EngFormatter(use_eng_prefix=True)):
         print("="*max_repr_width)
         print(df.replace(np.nan, "-"))
         print("-"*max_repr_width)
