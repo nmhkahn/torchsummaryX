@@ -26,13 +26,17 @@ def summary(model, x, *args, **kwargs):
             info = OrderedDict()
             info["id"] = id(module)
             if isinstance(outputs, (list, tuple)):
-                info["out"] = list(outputs[0].size())
+                try:
+                    info["out"] = list(outputs[0].size())
+                except AttributeError:
+                    # pack_padded_seq and pad_packed_seq store feature into data attribute
+                    info["out"] = list(outputs[0].data.size())
             else:
                 info["out"] = list(outputs.size())
 
             info["ksize"] = "-"
             info["inner"] = OrderedDict()
-            info["params_nt"],  info["params"], info["macs"] = 0, 0, 0
+            info["params_nt"], info["params"], info["macs"] = 0, 0, 0
             for name, param in module.named_parameters():
                 info["params"] += param.nelement() * param.requires_grad
                 info["params_nt"] += param.nelement() * (not param.requires_grad)
@@ -86,7 +90,7 @@ def summary(model, x, *args, **kwargs):
 
     # Use pandas to align the columns
     df = pd.DataFrame(summary).T
-    
+
     df["Mult-Adds"] = pd.to_numeric(df["macs"], errors="coerce")
     df["Params"] = pd.to_numeric(df["params"], errors="coerce")
     df["Non-trainable params"] = pd.to_numeric(df["params_nt"], errors="coerce")
@@ -96,13 +100,16 @@ def summary(model, x, *args, **kwargs):
     ))
     df_sum = df.sum()
     df.index.name = "Layer"
-    
-    df = df[["Kernel Shape", "Output Shape", "Params", "Mult-Adds"]]
-    
 
+    df = df[["Kernel Shape", "Output Shape", "Params", "Mult-Adds"]]
     max_repr_width = max([len(row) for row in df.to_string().split("\n")])
 
-    with pd.option_context("display.max_rows", 600, "display.max_columns", 10, 'display.float_format', pd.io.formats.format.EngFormatter(use_eng_prefix=True)):
+    option = pd.option_context(
+        "display.max_rows", 600,
+        "display.max_columns", 10,
+        "display.float_format", pd.io.formats.format.EngFormatter(use_eng_prefix=True)
+    )
+    with option:
         print("="*max_repr_width)
         print(df.replace(np.nan, "-"))
         print("-"*max_repr_width)
