@@ -78,10 +78,11 @@ def summary(model, x, *args, **kwargs):
     model.apply(register_hook)
 
     with torch.no_grad():
-        model(x) if not (kwargs or args) else model(x, *args, **kwargs)
-
-    for hook in hooks:
-        hook.remove()
+        try:
+            model(x) if not (kwargs or args) else model(x, *args, **kwargs)
+        finally:
+            for hook in hooks:
+                hook.remove()
 
     # Use pandas to align the columns
     df = pd.DataFrame(summary).T
