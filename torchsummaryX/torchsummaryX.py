@@ -110,7 +110,7 @@ def summary(model, x, *args, layer_modules=layer_modules, print_summary=True, **
         ksize="Kernel Shape",
         out="Output Shape",
     ))
-    df_sum = df.sum()
+    df_sum = df[["params_nt", "Mult-Adds", "Params", "Non-trainable params"]].sum()
     df.index.name = "Layer"
 
     df = df[["Kernel Shape", "Output Shape", "Params", "Mult-Adds"]]
