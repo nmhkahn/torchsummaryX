@@ -101,6 +101,9 @@ def summary(model, x, *args, layer_modules=layer_modules, print_summary=True, **
             hook.remove()
 
     # Use pandas to align the columns
+    pd.set_option('display.max_rows', 500)
+    pd.set_option('display.max_columns', 500)
+    pd.set_option('display.width', 1000)
     df = pd.DataFrame(summary).T
 
     df["Mult-Adds"] = pd.to_numeric(df["macs"], errors="coerce")
